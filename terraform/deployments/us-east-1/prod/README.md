@@ -1,6 +1,6 @@
 # Dev Environment Configuration
 
-This directory contains the Terraform configuration for the development environment.
+This directory contains the Terraform configuration for the production environment.
 
 ## Usage
 
@@ -22,7 +22,7 @@ terraform apply
 ## Configuration
 
 The configuration creates a static website hosted on S3 with the following settings:
-- Bucket name: `my-static-website-dev` (configurable via `local.tf`)
+- Bucket name: `my-static-website-prod` (configurable via `local.tf`)
 - Environment-specific tags
 - Public read access for website hosting
 

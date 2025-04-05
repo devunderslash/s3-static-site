@@ -1,4 +1,4 @@
-module "static_website_dev" {
+module "static_website_prod" {
   source = "../../../modules/static_site"
 
   bucket_name = local.bucket_name
@@ -10,7 +10,7 @@ module "static_website_dev" {
 
 provider "aws" {
   region     = local.region
-  profile    = "devops"
+  profile    = "Dev"
   # access_key = var.aws_access_key
   # secret_key = var.aws_secret_key
 }
