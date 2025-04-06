@@ -1,7 +1,7 @@
 # This github action is a manual pipeline that takes a region and environment as input and runs terraform plan and apply.
 # It is triggered manually and requires the user to input the region and environment.
 # With the region and environment it will run the terraform plan and apply commands on the correct directory .terraform/deployments/${region}/${environment}
-# With the region it will also use the correct AWS credentials from github secrets which will be prefixed with the region name (eg: us-east-1_AWS_ACCESS_KEY_ID)
+# With the environment it will also use the correct AWS credentials from github secrets which will be prefixed with the region name (eg: us-east-1_AWS_ACCESS_KEY_ID) **Should be region, corner cut
 
 name: Run Terraform
 
@@ -21,14 +21,9 @@ on:
 env:
   AWS_REGION: ${{ github.event.inputs.region }}
   ENVIRONMENT: ${{ github.event.inputs.environment }}
-  # TF_VAR_region: ${{ github.event.inputs.region }}
-  # TF_VAR_environment: ${{ github.event.inputs.environment }}
   TF_VAR_aws_access_key: ${{ github.event.inputs.environment == 'DEV' && secrets.DEV_AWS_ACCESS_KEY_ID || secrets.PROD_AWS_ACCESS_KEY_ID }}
   TF_VAR_aws_secret_key: ${{ github.event.inputs.environment == 'DEV' && secrets.DEV_AWS_SECRET_ACCESS_KEY || secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-  # AWS_ACCESS_KEY_ID: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.region)] }}
-  # AWS_SECRET_ACCESS_KEY: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.region)] }}
-  # AWS_DEFAULT_REGION: ${{ github.event.inputs.region }}
-  # TF_VAR_aws_region: ${{ github.event.inputs.region }}
+
 
 
 jobs:
