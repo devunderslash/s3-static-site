@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  DEV_AWS_REGION_: eu-west-2
+  DEV_AWS_REGION: eu-west-2
   PROD_AWS_REGION: us-east-1
 
 jobs:
