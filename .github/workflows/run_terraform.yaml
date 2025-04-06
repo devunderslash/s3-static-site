@@ -36,15 +36,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.0.0
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
           aws-secret-access-key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
@@ -58,11 +58,11 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ env.VAR_ENV }}
+        working-directory: terraform/deployments/${{ github.event.inputs.region }}/${{ env.VAR_ENV }}
         env:
           TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
           TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
 
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ env.VAR_ENV }}
+        working-directory: terraform/deployments/${{ github.event.inputs.region }}/${{ env.VAR_ENV }}
