@@ -11,7 +11,7 @@ on:
       region:
         description: 'AWS Region'
         required: true
-        default: 'us-east-1'
+        default: 'eu-west-2'
       environment:
         description: 'Environment (DEV, PROD)'
         required: true
@@ -23,8 +23,8 @@ env:
   ENVIRONMENT: ${{ github.event.inputs.environment }}
   # TF_VAR_region: ${{ github.event.inputs.region }}
   # TF_VAR_environment: ${{ github.event.inputs.environment }}
-  TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.region)] }}
-  TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.region)] }}
+  TF_VAR_aws_access_key_id: ${{ secrets[github.event.inputs.environment | upper | append('_AWS_ACCESS_KEY_ID')] }}
+  TF_VAR_aws_secret_access_key: ${{ secrets[github.event.inputs.environment | upper | append('_AWS_SECRET_ACCESS_KEY')] }}
   # AWS_ACCESS_KEY_ID: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.region)] }}
   # AWS_SECRET_ACCESS_KEY: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.region)] }}
   # AWS_DEFAULT_REGION: ${{ github.event.inputs.region }}
@@ -46,8 +46,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.region)] }}
-          aws-secret-access-key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.region)] }}
+          aws-access-key-id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
+          aws-secret-access-key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Terraform Init
@@ -57,8 +57,8 @@ jobs:
         run: terraform plan -out=tfplan -input=false
         working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ github.event.inputs.environment }}
         env:
-          TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.region)] }}
-          TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.region)] }}
+          TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
+          TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
 
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
