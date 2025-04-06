@@ -55,11 +55,11 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ github.event.inputs.environment }}
+        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ github.event.inputs.environment | toLower()  }}
         env:
           TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
           TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
 
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ github.event.inputs.environment }}
+        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ github.event.inputs.environment | toLower()  }}
