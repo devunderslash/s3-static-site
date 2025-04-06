@@ -9,6 +9,8 @@ on:
     branches: [ main ]
     paths:
       - 'application/**' # Trigger only when files in the application directory change
+  workflow_dispatch:
+  
 
 
 env:
