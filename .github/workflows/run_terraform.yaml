@@ -50,11 +50,15 @@ jobs:
           aws-secret-access-key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Terraform Init
-        run: terraform init
-
       - name: Convert Environment to lowercase for directory traversal
         run: echo "VAR_ENV=$(echo '${{ github.event.inputs.environment }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/deployments/${{ github.event.inputs.region }}/${{ env.VAR_ENV }}
+        env:
+          TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
+          TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
