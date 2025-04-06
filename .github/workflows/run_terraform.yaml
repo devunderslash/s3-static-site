@@ -54,7 +54,7 @@ jobs:
         run: terraform init
 
       - name: Convert Environment to lowercase for directory traversal
-        run: echo "VAR_ENV=$(echo ${{ github.event.inputs.environment }} | tr '[:upper:]' '[:lower:]'") >> $GITHUB_ENV" 
+        run: echo "VAR_ENV=$(echo '${{ github.event.inputs.environment }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
