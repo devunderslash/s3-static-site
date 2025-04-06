@@ -54,15 +54,15 @@ jobs:
         run: terraform init
 
       - name: Convert Environment to lowercase for directory traversal
-        run: INPUT=${{ github.event.inputs.environment }}; echo "VAR_ENV=${INPUT,,}">>${GITHUB_OUTPUT}
+        run: echo "VAR_ENV=$(echo ${{ github.event.inputs.environment }} | tr '[:upper:]' '[:lower:]'") >> $GITHUB_ENV" 
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ steps.convert_environment.outputs.VAR_ENV }}
+        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ VAR_ENV }} }
         env:
           TF_VAR_aws_access_key_id: ${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', github.event.inputs.environment)] }}
           TF_VAR_aws_secret_access_key: ${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', github.event.inputs.environment)] }}
 
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
-        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ steps.convert_environment.outputs.VAR_ENV  }}
+        working-directory: .terraform/deployments/${{ github.event.inputs.region }}/${{ VAR_ENV }} }}
