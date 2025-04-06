@@ -10,9 +10,9 @@ module "static_website_dev" {
 
 provider "aws" {
   region     = local.region
-  profile    = "devops"
-  # access_key = var.aws_access_key
-  # secret_key = var.aws_secret_key
+#   profile    = "devops"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
 }
 
 output "endpoint" {

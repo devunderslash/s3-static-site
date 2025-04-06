@@ -95,11 +95,12 @@ Checklist
 - [x] Use a supported backend for Terraform state (S3 Native).
 - [x] Create a simple web application (e.g., a static HTML page).
 - [x] Create simple deploy script to push it to infra (S3).
+- [ ] Add temporary secrets to github repo for github actions.
 - [ ] Ensure that changes to the HTML page trigger a redeployment.
 - [x] Ensure that the DNS name or IP address remains the same after redeployment.
 - [ ] Ensure that the application can be deployed to two different AWS accounts (e.g., dev and prod) with different parameters.
 - [x] Store the Solution code in a GitHub repository.
-- [ ] Optionally, set up CI/CD for the deployment process.
+- [x] Optionally, set up CI/CD for the deployment process.
 - [ ] Optionally, use TLS for the web application.
 - [ ] Optionally, use a custom domain name for the web application.
 - [ ] Optionally, use CloudFront for content delivery.
