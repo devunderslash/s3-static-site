@@ -3,8 +3,13 @@ name: Deploy Static Website
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'application/**' # Trigger only when files in the application directory change
   pull_request:
     branches: [ main ]
+    paths:
+      - 'application/**' # Trigger only when files in the application directory change
+
 
 env:
   DEV_AWS_REGION: eu-west-2
