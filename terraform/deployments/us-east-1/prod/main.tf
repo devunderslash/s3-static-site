@@ -16,5 +16,5 @@ provider "aws" {
 }
 
 output "endpoint" {
-  value = module.static_website.website_endpoint
+  value = module.static_website_prod.website_endpoint
 }
