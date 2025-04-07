@@ -35,9 +35,9 @@ jobs:
           aws-region: ${{ env.DEV_AWS_REGION }}
 
       - name: Deploy Static Files to Dev
-        working-directory: ./application
+        working-directory: application
         run: |
-          aws s3 sync application/ "s3://${{ secrets.DEV_BUCKET_NAME }}" \
+          aws s3 sync . "s3://${{ secrets.DEV_BUCKET_NAME }}" \
             --exclude "*.git/*" \
             --exclude "deploy.sh" \
             --exclude "README.md" \
@@ -64,9 +64,9 @@ jobs:
         run: sleep 300
 
       - name: Deploy Static Files to Prod
-        working-directory: ./application
+        working-directory: application
         run: |
-          aws s3 sync application/ "s3://${{ secrets.PROD_BUCKET_NAME }}" \
+          aws s3 sync . "s3://${{ secrets.PROD_BUCKET_NAME }}" \
             --exclude "*.git/*" \
             --exclude "deploy.sh" \
             --exclude "README.md" \
