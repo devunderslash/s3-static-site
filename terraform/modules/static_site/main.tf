@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "website" {
   tags = var.tags
 }
 
-# Enable static website hosting
+# Enable bucket ownership controls
 resource "aws_s3_bucket_ownership_controls" "website" {
   bucket = aws_s3_bucket.website.id
 
